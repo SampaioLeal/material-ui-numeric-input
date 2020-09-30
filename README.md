@@ -6,22 +6,27 @@
 
 ## Install
 
+**NPM**
+
 ```bash
 npm install --save material-ui-numeric-input
+```
+
+**Yarn**
+
+```bash
+yarn add material-ui-numeric-input
 ```
 
 ## Usage
 
 ```tsx
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
-import MyComponent from 'material-ui-numeric-input'
-import 'material-ui-numeric-input/dist/index.css'
+import NumericInput from 'material-ui-numeric-input';
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
+function Example() {
+  return <NumericInput precision='3' label='Example' />;
 }
 ```
 
