@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import NumericInput from '.';
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
-  })
-})
+    expect(NumericInput).toBeTruthy();
+  });
+});

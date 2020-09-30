@@ -1,10 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react';
+import './index.css';
 
-import { ExampleComponent } from 'material-ui-numeric-input'
-import 'material-ui-numeric-input/dist/index.css'
+import NumericInput from 'material-ui-numeric-input';
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
-}
+  const [number, setNumber] = useState('0');
 
-export default App
+  return (
+    <NumericInput
+      value={Number(number)}
+      name='example'
+      precision='2'
+      label='Example'
+      onChange={(e) => setNumber(e.target.value)}
+    />
+  );
+};
+
+export default App;
