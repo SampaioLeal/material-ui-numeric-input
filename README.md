@@ -21,8 +21,7 @@ yarn add material-ui-numeric-input
 ## Usage
 
 ```tsx
-import React, { Component } from 'react';
-
+import React from 'react';
 import NumericInput from 'material-ui-numeric-input';
 
 function Example() {
