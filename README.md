@@ -25,7 +25,18 @@ import React from 'react';
 import NumericInput from 'material-ui-numeric-input';
 
 function Example() {
-  return <NumericInput precision='3' label='Example' />;
+  return (
+    <NumericInput
+      value={10000}
+      name='example'
+      precision='2'
+      decimalSeparator=','
+      thousandSeparator='.'
+      label='Example'
+      onChange={(e) => console.log(e.target.value)}
+      variant='outlined'
+    />
+  );
 }
 ```
 

@@ -33,7 +33,7 @@ type Props = {
 
   variant?: 'standard' | 'outlined' | 'filled';
 };
-const InputNumerico: React.FC<Props> = (props) => {
+const NumericInput: React.FC<Props> = (props) => {
   const [value, setValue] = useState(props.value || 0);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -149,7 +149,7 @@ const InputNumerico: React.FC<Props> = (props) => {
   }
 };
 
-export default InputNumerico;
+export default NumericInput;
 
 const Control = styled(FormControl)`
   .MuiInputLabel-shrink {
