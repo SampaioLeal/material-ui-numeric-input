@@ -5,7 +5,9 @@ import {
   FormControl,
   FormHelperText,
   InputLabel,
-  OutlinedInput
+  OutlinedInput,
+  Input,
+  FilledInput
 } from '@material-ui/core';
 
 type Props = {
@@ -28,6 +30,8 @@ type Props = {
 
   decimalSeparator: string;
   thousandSeparator: string;
+
+  variant?: 'standard' | 'outlined' | 'filled';
 };
 const InputNumerico: React.FC<Props> = (props) => {
   const [value, setValue] = useState(props.value || 0);
@@ -44,39 +48,105 @@ const InputNumerico: React.FC<Props> = (props) => {
     props.onChange(e);
   }
 
-  // TODO: make input multi variant
-  // TODO: solve a problem that cursor goes back two characters
-  return (
-    <Control error={props.error} fullWidth>
-      <InputLabel error={props.error} shrink id={props.label}>
-        {props.label}
-      </InputLabel>
-      <OutlinedInput
-        name={props.name}
-        error={props.error}
-        notched
-        label={props.label}
-        fullWidth
-        inputComponent={CurrencyInput}
-        disabled={props.disabled}
-        onBlur={props.onBlur}
-        inputProps={{
-          id: props.id,
-          value: value,
-          disabled: props.disabled,
-          onChangeEvent: handleChange,
-          decimalSeparator: props.decimalSeparator,
-          thousandSeparator: props.thousandSeparator,
-          precision: props.precision,
-          inputType: props.inputType,
-          allowNegative: props.allowNegative
-        }}
-      />
-      {props.error ? (
-        <FormHelperText error={props.error}>{props.helperText}</FormHelperText>
-      ) : null}
-    </Control>
-  );
+  if (!props.variant || props.variant === 'standard') {
+    return (
+      <FormControl error={props.error} fullWidth>
+        <InputLabel error={props.error} shrink id={props.label}>
+          {props.label}
+        </InputLabel>
+        <Input
+          name={props.name}
+          error={props.error}
+          fullWidth
+          inputComponent={CurrencyInput}
+          disabled={props.disabled}
+          onBlur={props.onBlur}
+          inputProps={{
+            id: props.id,
+            value: value,
+            disabled: props.disabled,
+            onChangeEvent: handleChange,
+            decimalSeparator: props.decimalSeparator,
+            thousandSeparator: props.thousandSeparator,
+            precision: props.precision,
+            inputType: props.inputType,
+            allowNegative: props.allowNegative
+          }}
+        />
+        {props.error ? (
+          <FormHelperText error={props.error}>
+            {props.helperText}
+          </FormHelperText>
+        ) : null}
+      </FormControl>
+    );
+  } else if (props.variant === 'filled') {
+    return (
+      <FormControl error={props.error} fullWidth>
+        <InputLabel error={props.error} shrink id={props.label}>
+          {props.label}
+        </InputLabel>
+        <FilledInput
+          name={props.name}
+          error={props.error}
+          fullWidth
+          inputComponent={CurrencyInput}
+          disabled={props.disabled}
+          onBlur={props.onBlur}
+          inputProps={{
+            id: props.id,
+            value: value,
+            disabled: props.disabled,
+            onChangeEvent: handleChange,
+            decimalSeparator: props.decimalSeparator,
+            thousandSeparator: props.thousandSeparator,
+            precision: props.precision,
+            inputType: props.inputType,
+            allowNegative: props.allowNegative
+          }}
+        />
+        {props.error ? (
+          <FormHelperText error={props.error}>
+            {props.helperText}
+          </FormHelperText>
+        ) : null}
+      </FormControl>
+    );
+  } else {
+    return (
+      <Control error={props.error} fullWidth>
+        <InputLabel error={props.error} shrink id={props.label}>
+          {props.label}
+        </InputLabel>
+        <OutlinedInput
+          name={props.name}
+          error={props.error}
+          notched
+          label={props.label}
+          fullWidth
+          inputComponent={CurrencyInput}
+          disabled={props.disabled}
+          onBlur={props.onBlur}
+          inputProps={{
+            id: props.id,
+            value: value,
+            disabled: props.disabled,
+            onChangeEvent: handleChange,
+            decimalSeparator: props.decimalSeparator,
+            thousandSeparator: props.thousandSeparator,
+            precision: props.precision,
+            inputType: props.inputType,
+            allowNegative: props.allowNegative
+          }}
+        />
+        {props.error ? (
+          <FormHelperText error={props.error}>
+            {props.helperText}
+          </FormHelperText>
+        ) : null}
+      </Control>
+    );
+  }
 };
 
 export default InputNumerico;

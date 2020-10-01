@@ -13,6 +13,7 @@ const App = () => {
       thousandSeparator='.'
       label='Example'
       onChange={(e) => console.log(e.target.value)}
+      variant='outlined'
     />
   );
 };
