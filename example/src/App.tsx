@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './index.css';
 
 import NumericInput from 'material-ui-numeric-input';
 
 const App = () => {
-  const [number, setNumber] = useState('0');
-
   return (
     <NumericInput
-      value={Number(number)}
+      value={10000}
       name='example'
       precision='2'
+      decimalSeparator=','
+      thousandSeparator='.'
       label='Example'
-      onChange={(e) => setNumber(e.target.value)}
+      onChange={(e) => console.log(e.target.value)}
     />
   );
 };

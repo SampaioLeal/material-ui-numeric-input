@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input';
 import {
@@ -9,8 +9,8 @@ import {
 } from '@material-ui/core';
 
 type Props = {
-  value?: number;
-  onChange?(
+  value: number;
+  onChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void;
   onBlur?(
@@ -22,42 +22,26 @@ type Props = {
   id?: string;
   inputType?: string;
   allowNegative?: boolean;
-  minimumValue?: number;
   error?: boolean;
   helperText?: string;
   name?: string;
+
+  decimalSeparator: string;
+  thousandSeparator: string;
 };
 const InputNumerico: React.FC<Props> = (props) => {
-  function changeValue(e: React.ChangeEvent<HTMLInputElement>): void {
-    const number = e.target.value.split('.').join('').replace(',', '.');
+  const [value, setValue] = useState(props.value || 0);
 
-    if (props.onChange) {
-      if (props.minimumValue !== undefined) {
-        if (parseFloat(number) < props.minimumValue) {
-          setTimeout(() => {
-            const event = e;
-            event.target.value = props.minimumValue!.toString();
-            props.onChange!(event);
-          }, 100);
-        } else {
-          const event = e;
-          event.target.value = number;
-          props.onChange!(event);
-        }
-      } else {
-        if (e.target.value !== '') {
-          const event = e;
-          event.target.value = number;
-          props.onChange!(event);
-        } else {
-          setTimeout(() => {
-            const event = e;
-            event.target.value = '0';
-            props.onChange!(event);
-          }, 100);
-        }
-      }
-    }
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
+    setValue(
+      Number(
+        e.target.value
+          .split(props.thousandSeparator)
+          .join('')
+          .replace(props.decimalSeparator, '.')
+      )
+    );
+    props.onChange(e);
   }
 
   // TODO: make input multi variant
@@ -78,11 +62,11 @@ const InputNumerico: React.FC<Props> = (props) => {
         onBlur={props.onBlur}
         inputProps={{
           id: props.id,
-          value: props.value,
+          value: value,
           disabled: props.disabled,
-          onChangeEvent: changeValue,
-          decimalSeparator: ',',
-          thousandSeparator: '.',
+          onChangeEvent: handleChange,
+          decimalSeparator: props.decimalSeparator,
+          thousandSeparator: props.thousandSeparator,
           precision: props.precision,
           inputType: props.inputType,
           allowNegative: props.allowNegative
