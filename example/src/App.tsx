@@ -11,7 +11,7 @@ const App = () => {
       decimalSeparator=','
       thousandSeparator='.'
       label='Example'
-      onChange={(e) => console.log(e.target.value)}
+      onChange={(value) => console.log(value)}
       variant='outlined'
     />
   );

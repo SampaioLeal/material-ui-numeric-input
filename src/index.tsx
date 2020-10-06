@@ -12,9 +12,7 @@ import {
 
 type Props = {
   value?: number;
-  onChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void;
+  onChange(value: number): void;
   onBlur?(
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void;
@@ -37,15 +35,15 @@ const NumericInput: React.FC<Props> = (props) => {
   const [value, setValue] = useState(props.value || 0);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    const newValue = e.target.value
-      .split(props.thousandSeparator)
-      .join('')
-      .replace(props.decimalSeparator, '.');
+    const newValue = Number(
+      e.target.value
+        .split(props.thousandSeparator)
+        .join('')
+        .replace(props.decimalSeparator, '.')
+    );
 
-    setValue(Number(newValue));
-    e.target.value = newValue;
-
-    props.onChange(e);
+    setValue(newValue);
+    props.onChange(newValue);
   }
 
   if (!props.variant || props.variant === 'standard') {

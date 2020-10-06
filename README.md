@@ -6,6 +6,10 @@
 
 ## **Updates**
 
+### 1.0.6
+
+- Input output value is now just a Number
+
 ### 1.0.5
 
 - Value prop is now optional, the input have its own internal state
