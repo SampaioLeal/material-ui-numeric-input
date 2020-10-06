@@ -4,21 +4,28 @@
 
 [![NPM](https://img.shields.io/npm/v/material-ui-numeric-input.svg)](https://www.npmjs.com/package/material-ui-numeric-input) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-## Install
+## **Updates**
 
-**NPM**
+### 1.0.5
+
+- Value prop is now optional, the input have its own internal state
+- Target output value is now a valid Number string
+
+## **Install**
+
+NPM
 
 ```bash
 npm install --save material-ui-numeric-input
 ```
 
-**Yarn**
+Yarn
 
 ```bash
 yarn add material-ui-numeric-input
 ```
 
-## Usage
+## **Usage**
 
 ```tsx
 import React from 'react';
@@ -40,6 +47,6 @@ function Example() {
 }
 ```
 
-## License
+## **License**
 
 MIT © [SampaioLeal](https://github.com/SampaioLeal)
