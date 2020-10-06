@@ -37,14 +37,14 @@ const NumericInput: React.FC<Props> = (props) => {
   const [value, setValue] = useState(props.value || 0);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    setValue(
-      Number(
-        e.target.value
-          .split(props.thousandSeparator)
-          .join('')
-          .replace(props.decimalSeparator, '.')
-      )
-    );
+    const newValue = e.target.value
+      .split(props.thousandSeparator)
+      .join('')
+      .replace(props.decimalSeparator, '.');
+
+    setValue(Number(newValue));
+    e.target.value = newValue;
+
     props.onChange(e);
   }
 
