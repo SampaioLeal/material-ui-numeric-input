@@ -6,6 +6,10 @@
 
 ## **Updates**
 
+### 1.0.7
+
+- Value prop now works as expected, like disabled inputs with calc.
+
 ### 1.0.6
 
 - Input output value is now just a Number
