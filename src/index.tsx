@@ -32,7 +32,7 @@ type Props = {
   variant?: 'standard' | 'outlined' | 'filled';
 };
 const NumericInput: React.FC<Props> = (props) => {
-  const [value, setValue] = useState(props.value || 0);
+  const [value, setValue] = useState(0);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
     const newValue = Number(
@@ -61,7 +61,7 @@ const NumericInput: React.FC<Props> = (props) => {
           onBlur={props.onBlur}
           inputProps={{
             id: props.id,
-            value: value,
+            value: props.value || value,
             disabled: props.disabled,
             onChangeEvent: handleChange,
             decimalSeparator: props.decimalSeparator,
@@ -93,7 +93,7 @@ const NumericInput: React.FC<Props> = (props) => {
           onBlur={props.onBlur}
           inputProps={{
             id: props.id,
-            value: value,
+            value: props.value || value,
             disabled: props.disabled,
             onChangeEvent: handleChange,
             decimalSeparator: props.decimalSeparator,
@@ -127,7 +127,7 @@ const NumericInput: React.FC<Props> = (props) => {
           onBlur={props.onBlur}
           inputProps={{
             id: props.id,
-            value: value,
+            value: props.value || value,
             disabled: props.disabled,
             onChangeEvent: handleChange,
             decimalSeparator: props.decimalSeparator,
