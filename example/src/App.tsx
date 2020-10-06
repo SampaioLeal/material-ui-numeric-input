@@ -6,7 +6,6 @@ import NumericInput from 'material-ui-numeric-input';
 const App = () => {
   return (
     <NumericInput
-      value={10000}
       name='example'
       precision='2'
       decimalSeparator=','

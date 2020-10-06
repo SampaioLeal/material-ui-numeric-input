@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 
 type Props = {
-  value: number;
+  value?: number;
   onChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ): void;
