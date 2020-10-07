@@ -35,6 +35,8 @@ yarn add material-ui-numeric-input
 
 ## **Usage**
 
+Demo: https://sampaioleal.github.io/material-ui-numeric-input
+
 ```tsx
 import React from 'react';
 import NumericInput from 'material-ui-numeric-input';
