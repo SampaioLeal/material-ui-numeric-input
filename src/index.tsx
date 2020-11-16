@@ -25,6 +25,7 @@ type Props = {
   error?: boolean;
   helperText?: string;
   name?: string;
+  endAdornment?: React.ReactNode;
 
   decimalSeparator: string;
   thousandSeparator: string;
@@ -70,6 +71,7 @@ const NumericInput: React.FC<Props> = (props) => {
             inputType: props.inputType,
             allowNegative: props.allowNegative
           }}
+          endAdornment={props.endAdornment}
         />
         {props.error ? (
           <FormHelperText error={props.error}>
@@ -102,6 +104,7 @@ const NumericInput: React.FC<Props> = (props) => {
             inputType: props.inputType,
             allowNegative: props.allowNegative
           }}
+          endAdornment={props.endAdornment}
         />
         {props.error ? (
           <FormHelperText error={props.error}>
@@ -136,6 +139,7 @@ const NumericInput: React.FC<Props> = (props) => {
             inputType: props.inputType,
             allowNegative: props.allowNegative
           }}
+          endAdornment={props.endAdornment}
         />
         {props.error ? (
           <FormHelperText error={props.error}>
