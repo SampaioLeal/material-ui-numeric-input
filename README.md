@@ -6,6 +6,12 @@
 
 ## **Updates**
 
+### 2.0.0
+
+- Updated material-ui to version 5
+- Removed styled-components in order to use material styled API
+- Other packages updated
+
 ### 1.0.7
 
 - Value prop now works as expected, like disabled inputs with calc.
