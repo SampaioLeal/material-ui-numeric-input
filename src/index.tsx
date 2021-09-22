@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import CurrencyInput from 'react-currency-input';
 import {
   FormControl,
@@ -7,8 +6,9 @@ import {
   InputLabel,
   OutlinedInput,
   Input,
-  FilledInput
-} from '@material-ui/core';
+  FilledInput,
+  styled
+} from '@mui/material';
 
 type Props = {
   value?: number;
