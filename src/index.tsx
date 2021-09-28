@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import CurrencyInput from 'react-currency-input';
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  OutlinedInput,
-  Input,
-  FilledInput,
-  styled
-} from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Input from '@mui/material/Input';
+import FilledInput from '@mui/material/FilledInput';
 
 type Props = {
   value?: number;
@@ -115,7 +112,7 @@ const NumericInput: React.FC<Props> = (props) => {
     );
   } else {
     return (
-      <Control error={props.error} fullWidth>
+      <FormControl error={props.error} fullWidth>
         <InputLabel error={props.error} shrink id={props.label}>
           {props.label}
         </InputLabel>
@@ -146,15 +143,9 @@ const NumericInput: React.FC<Props> = (props) => {
             {props.helperText}
           </FormHelperText>
         ) : null}
-      </Control>
+      </FormControl>
     );
   }
 };
 
 export default NumericInput;
-
-const Control = styled(FormControl)`
-  .MuiInputLabel-shrink {
-    transform: translate(13px, -5.5px) scale(0.75) !important;
-  }
-`;
