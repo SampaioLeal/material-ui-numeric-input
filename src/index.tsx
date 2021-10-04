@@ -22,6 +22,7 @@ type Props = {
   error?: boolean;
   helperText?: string;
   name?: string;
+  color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
 
@@ -47,7 +48,7 @@ const NumericInput: React.FC<Props> = (props) => {
 
   if (!props.variant || props.variant === 'standard') {
     return (
-      <FormControl error={props.error} fullWidth>
+      <FormControl color={props.color} error={props.error} fullWidth>
         <InputLabel error={props.error} shrink id={props.label}>
           {props.label}
         </InputLabel>
@@ -58,6 +59,7 @@ const NumericInput: React.FC<Props> = (props) => {
           inputComponent={CurrencyInput}
           disabled={props.disabled}
           onBlur={props.onBlur}
+          color={props.color}
           inputProps={{
             id: props.id,
             value: props.value || value,
@@ -81,7 +83,7 @@ const NumericInput: React.FC<Props> = (props) => {
     );
   } else if (props.variant === 'filled') {
     return (
-      <FormControl error={props.error} fullWidth>
+      <FormControl color={props.color} error={props.error} fullWidth>
         <InputLabel error={props.error} shrink id={props.label}>
           {props.label}
         </InputLabel>
@@ -92,6 +94,7 @@ const NumericInput: React.FC<Props> = (props) => {
           inputComponent={CurrencyInput}
           disabled={props.disabled}
           onBlur={props.onBlur}
+          color={props.color}
           inputProps={{
             id: props.id,
             value: props.value || value,
@@ -115,7 +118,7 @@ const NumericInput: React.FC<Props> = (props) => {
     );
   } else {
     return (
-      <FormControl error={props.error} fullWidth>
+      <FormControl color={props.color} error={props.error} fullWidth>
         <InputLabel error={props.error} shrink id={props.label}>
           {props.label}
         </InputLabel>
@@ -128,6 +131,7 @@ const NumericInput: React.FC<Props> = (props) => {
           inputComponent={CurrencyInput}
           disabled={props.disabled}
           onBlur={props.onBlur}
+          color={props.color}
           inputProps={{
             id: props.id,
             value: props.value || value,
