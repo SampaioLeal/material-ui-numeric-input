@@ -7,11 +7,11 @@ const App = () => {
   return (
     <NumericInput
       name='example'
-      precision='2'
-      decimalSeparator=','
-      thousandSeparator='.'
+      precision={3}
+      decimalChar=','
+      thousandChar='.'
       label='Example'
-      onChange={(value) => console.log(value)}
+      onChange={(event) => console.log(event.target.value)}
       variant='outlined'
     />
   );

@@ -50,13 +50,12 @@ import NumericInput from 'material-ui-numeric-input';
 function Example() {
   return (
     <NumericInput
-      value={10000}
       name='example'
-      precision='2'
-      decimalSeparator=','
-      thousandSeparator='.'
+      precision={3}
+      decimalChar=','
+      thousandChar='.'
       label='Example'
-      onChange={(value) => console.log(value)}
+      onChange={(event) => console.log(event.target.value)}
       variant='outlined'
     />
   );

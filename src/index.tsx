@@ -1,159 +1,102 @@
-import React, { useState } from 'react';
-import CurrencyInput from 'react-currency-input';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
+import React, { useMemo } from 'react';
+import TextField from '@mui/material/TextField';
 
-type Props = {
-  value?: number;
-  onChange(value: number): void;
-  onBlur?(
-    event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void;
-  precision: string;
-  label: string;
-  disabled?: boolean;
-  id?: string;
-  inputType?: string;
-  allowNegative?: boolean;
-  error?: boolean;
-  helperText?: string;
-  name?: string;
-  color?: 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
-  startAdornment?: React.ReactNode;
-  endAdornment?: React.ReactNode;
+interface HTMLNumericElement extends Omit<HTMLInputElement, 'value'> {
+  value: number | null;
+}
 
-  decimalSeparator: string;
-  thousandSeparator: string;
+type NumericInputProps = import('@mui/material').TextFieldProps & {
+  value?: number | string;
+  onChange(e: React.ChangeEvent<HTMLNumericElement>): void;
 
-  variant?: 'standard' | 'outlined' | 'filled';
+  precision: number;
+  thousandChar: string;
+  decimalChar: string;
 };
-const NumericInput: React.FC<Props> = (props) => {
-  const [value, setValue] = useState(0);
+
+function isNumber(string: string) {
+  return !isNaN(Number(string));
+}
+
+function NumericInput(props: NumericInputProps) {
+  const { value, precision, thousandChar, decimalChar, ...inputProps } = props;
+  const formatter = useMemo(
+    () =>
+      new Intl.NumberFormat('pt-BR', {
+        minimumFractionDigits: precision,
+        maximumFractionDigits: precision
+      }),
+
+    [thousandChar, decimalChar]
+  );
+
+  if (!decimalChar) {
+    throw new Error('Decimal char should not be an empty string!');
+  }
+  if (!thousandChar) {
+    throw new Error('Thousand char should not be an empty string!');
+  }
+
+  function format(number: number) {
+    const result = formatter
+      .format(number)
+      .replace(',', decimalChar)
+      .replaceAll('.', thousandChar);
+
+    return result;
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
+    if (e.key === ' ') e.preventDefault();
+    if (e.ctrlKey || e.shiftKey || e.key === 'Backspace' || e.key === 'Enter')
+      return;
+    if (!isNumber(e.key)) e.preventDefault();
+  }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    const newValue = Number(
-      e.target.value
-        .split(props.thousandSeparator)
-        .join('')
-        .replace(props.decimalSeparator, '.')
-    );
+    const newEvent: React.ChangeEvent<HTMLNumericElement> = {
+      ...e,
+      currentTarget: {
+        ...e.currentTarget,
+        value: 0
+      },
+      target: {
+        ...e.target,
+        value: 0
+      }
+    };
+    let numericRepresentation = e.target.value;
 
-    setValue(newValue);
-    props.onChange(newValue);
+    numericRepresentation = numericRepresentation.replaceAll(thousandChar, '');
+    numericRepresentation = numericRepresentation.replace(decimalChar, '');
+
+    if (numericRepresentation === '') {
+      e.target.value = '';
+      newEvent.target.value = null;
+      newEvent.currentTarget.value = null;
+      return props.onChange && props.onChange(newEvent);
+    }
+
+    if (isNumber(numericRepresentation)) {
+      const withPrecision = +numericRepresentation / 10 ** precision;
+      const formattedNumber = format(withPrecision);
+
+      newEvent.target.value = withPrecision;
+      newEvent.currentTarget.value = withPrecision;
+
+      e.target.value = formattedNumber;
+
+      props.onChange && props.onChange(newEvent);
+    }
   }
 
-  if (!props.variant || props.variant === 'standard') {
-    return (
-      <FormControl color={props.color} error={props.error} fullWidth>
-        <InputLabel error={props.error} shrink id={props.label}>
-          {props.label}
-        </InputLabel>
-        <Input
-          name={props.name}
-          error={props.error}
-          fullWidth
-          inputComponent={CurrencyInput}
-          disabled={props.disabled}
-          onBlur={props.onBlur}
-          color={props.color}
-          inputProps={{
-            id: props.id,
-            value: props.value || value,
-            disabled: props.disabled,
-            onChangeEvent: handleChange,
-            decimalSeparator: props.decimalSeparator,
-            thousandSeparator: props.thousandSeparator,
-            precision: props.precision,
-            inputType: props.inputType,
-            allowNegative: props.allowNegative
-          }}
-          endAdornment={props.endAdornment}
-          startAdornment={props.startAdornment}
-        />
-        {props.error ? (
-          <FormHelperText error={props.error}>
-            {props.helperText}
-          </FormHelperText>
-        ) : null}
-      </FormControl>
-    );
-  } else if (props.variant === 'filled') {
-    return (
-      <FormControl color={props.color} error={props.error} fullWidth>
-        <InputLabel error={props.error} shrink id={props.label}>
-          {props.label}
-        </InputLabel>
-        <FilledInput
-          name={props.name}
-          error={props.error}
-          fullWidth
-          inputComponent={CurrencyInput}
-          disabled={props.disabled}
-          onBlur={props.onBlur}
-          color={props.color}
-          inputProps={{
-            id: props.id,
-            value: props.value || value,
-            disabled: props.disabled,
-            onChangeEvent: handleChange,
-            decimalSeparator: props.decimalSeparator,
-            thousandSeparator: props.thousandSeparator,
-            precision: props.precision,
-            inputType: props.inputType,
-            allowNegative: props.allowNegative
-          }}
-          endAdornment={props.endAdornment}
-          startAdornment={props.startAdornment}
-        />
-        {props.error ? (
-          <FormHelperText error={props.error}>
-            {props.helperText}
-          </FormHelperText>
-        ) : null}
-      </FormControl>
-    );
-  } else {
-    return (
-      <FormControl color={props.color} error={props.error} fullWidth>
-        <InputLabel error={props.error} shrink id={props.label}>
-          {props.label}
-        </InputLabel>
-        <OutlinedInput
-          name={props.name}
-          error={props.error}
-          notched
-          label={props.label}
-          fullWidth
-          inputComponent={CurrencyInput}
-          disabled={props.disabled}
-          onBlur={props.onBlur}
-          color={props.color}
-          inputProps={{
-            id: props.id,
-            value: props.value || value,
-            disabled: props.disabled,
-            onChangeEvent: handleChange,
-            decimalSeparator: props.decimalSeparator,
-            thousandSeparator: props.thousandSeparator,
-            precision: props.precision,
-            inputType: props.inputType,
-            allowNegative: props.allowNegative
-          }}
-          endAdornment={props.endAdornment}
-          startAdornment={props.startAdornment}
-        />
-        {props.error ? (
-          <FormHelperText error={props.error}>
-            {props.helperText}
-          </FormHelperText>
-        ) : null}
-      </FormControl>
-    );
-  }
-};
+  return (
+    <TextField
+      {...inputProps}
+      onKeyDown={handleKeyDown}
+      onChange={handleChange}
+    />
+  );
+}
 
 export default NumericInput;
