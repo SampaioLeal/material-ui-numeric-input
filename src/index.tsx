@@ -19,6 +19,7 @@ type Props = {
   id?: string;
   inputType?: string;
   allowNegative?: boolean;
+  allowEmpty?:boolean;
   error?: boolean;
   helperText?: string;
   name?: string;
@@ -32,16 +33,18 @@ type Props = {
   variant?: 'standard' | 'outlined' | 'filled';
 };
 const NumericInput: React.FC<Props> = (props) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(props.allowEmpty === true ? null : 0);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
-    const newValue = Number(
-      e.target.value
-        .split(props.thousandSeparator)
-        .join('')
-        .replace(props.decimalSeparator, '.')
-    );
-
+    let newValue = props.allowEmpty === true ? null : 0;
+    if (e.target.value !== "") {
+      newValue = Number(
+        e.target.value
+          .split(props.thousandSeparator)
+          .join('')
+          .replace(props.decimalSeparator, '.')
+      );
+    }
     setValue(newValue);
     props.onChange(newValue);
   }
@@ -69,7 +72,8 @@ const NumericInput: React.FC<Props> = (props) => {
             thousandSeparator: props.thousandSeparator,
             precision: props.precision,
             inputType: props.inputType,
-            allowNegative: props.allowNegative
+            allowNegative: props.allowNegative,
+            allowEmpty:props.allowEmpty
           }}
           endAdornment={props.endAdornment}
           startAdornment={props.startAdornment}
