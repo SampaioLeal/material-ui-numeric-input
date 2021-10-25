@@ -20,6 +20,7 @@ function isNumber(string: string) {
 
 function NumericInput(props: NumericInputProps) {
   const { value, precision, thousandChar, decimalChar, ...inputProps } = props;
+  const defaultValue = Number(value);
   const formatter = useMemo(
     () =>
       new Intl.NumberFormat('pt-BR', {
@@ -92,6 +93,7 @@ function NumericInput(props: NumericInputProps) {
 
   return (
     <TextField
+      defaultValue={format(defaultValue)}
       {...inputProps}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
