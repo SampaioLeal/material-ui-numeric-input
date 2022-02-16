@@ -1,26 +1,36 @@
+import type { TextFieldProps } from '@mui/material';
+import { TextField } from '@mui/material';
 import React, { useMemo } from 'react';
-import TextField from '@mui/material/TextField';
 
-interface HTMLNumericElement extends Omit<HTMLInputElement, 'value'> {
-  value: number | null;
+interface HTMLNumericElement extends Omit<HTMLInputElement, 'value' | 'name'> {
+  value: number | null | '';
+  name?: string;
 }
 
-type NumericInputProps = import('@mui/material').TextFieldProps & {
+export type NumericInputProps = Omit<TextFieldProps, 'onChange'> & {
   value?: number | string;
-  onChange(e: React.ChangeEvent<HTMLNumericElement>): void;
+  onChange?(e: React.ChangeEvent<HTMLNumericElement>): void;
 
   precision: number;
   thousandChar: string;
   decimalChar: string;
 };
 
-function isNumber(string: string) {
-  return !isNaN(Number(string));
+function verifyNumber(string: string) {
+  const numericRepresentation = string.replace(/[,.]/g, '');
+
+  return {
+    isNumber: !isNaN(Number(numericRepresentation)),
+    numberFomart: !isNaN(Number(numericRepresentation))
+      ? Number(numericRepresentation)
+      : null
+  };
 }
 
 function NumericInput(props: NumericInputProps) {
   const { value, precision, thousandChar, decimalChar, ...inputProps } = props;
-  const defaultValue = Number(value);
+  const defaultValue = value === null ? NaN : Number(value);
+
   const formatter = useMemo(
     () =>
       new Intl.NumberFormat('pt-BR', {
@@ -49,9 +59,16 @@ function NumericInput(props: NumericInputProps) {
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
     if (e.key === ' ') e.preventDefault();
-    if (e.ctrlKey || e.shiftKey || e.key === 'Backspace' || e.key === 'Enter')
+
+    if (
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.key === 'Backspace' ||
+      e.key === 'Enter' ||
+      e.key === 'Tab'
+    )
       return;
-    if (!isNumber(e.key)) e.preventDefault();
+    if (!verifyNumber(e.key).isNumber) e.preventDefault();
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
@@ -59,10 +76,12 @@ function NumericInput(props: NumericInputProps) {
       ...e,
       currentTarget: {
         ...e.currentTarget,
+        name: props.name,
         value: 0
       },
       target: {
         ...e.target,
+        name: props.name,
         value: 0
       }
     };
@@ -78,8 +97,10 @@ function NumericInput(props: NumericInputProps) {
       return props.onChange && props.onChange(newEvent);
     }
 
-    if (isNumber(numericRepresentation)) {
-      const withPrecision = +numericRepresentation / 10 ** precision;
+    const { isNumber, numberFomart } = verifyNumber(numericRepresentation);
+    if (isNumber && numberFomart) {
+      const withPrecision = numberFomart / 10 ** precision;
+
       const formattedNumber = format(withPrecision);
 
       newEvent.target.value = withPrecision;
@@ -91,12 +112,29 @@ function NumericInput(props: NumericInputProps) {
     }
   }
 
+  const hasValue = value !== undefined;
+  let inputDefaultValue;
+  let inputValue;
+
+  if (hasValue) {
+    if (isNaN(defaultValue) || value === '') {
+      inputValue = null;
+    } else {
+      inputValue = format(defaultValue);
+    }
+  }
+
+  if (!hasValue && !isNaN(defaultValue)) {
+    inputDefaultValue = format(defaultValue);
+  }
+
   return (
     <TextField
-      defaultValue={format(defaultValue)}
+      defaultValue={inputDefaultValue}
       {...inputProps}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
+      value={inputValue}
     />
   );
 }
