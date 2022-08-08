@@ -2,7 +2,8 @@ import type { TextFieldProps } from '@mui/material';
 import { TextField } from '@mui/material';
 import React, { useMemo } from 'react';
 
-interface HTMLNumericElement extends Omit<HTMLInputElement, 'value' | 'name'> {
+export interface HTMLNumericElement
+  extends Omit<HTMLInputElement, 'value' | 'name'> {
   value: number | null | '';
   name?: string;
 }
