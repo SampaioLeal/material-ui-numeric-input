@@ -1,5 +1,5 @@
 import type { TextFieldProps } from '@mui/material';
-import { TextField } from '@mui/material';
+import { TextField, InputAdornment } from '@mui/material';
 import React, { useMemo } from 'react';
 
 export interface HTMLNumericElement
@@ -15,6 +15,8 @@ export type NumericInputProps = Omit<TextFieldProps, 'onChange'> & {
   precision: number;
   thousandChar: string;
   decimalChar: string;
+  prefix?: string;
+  suffix?: string;
 };
 
 function verifyNumber(string: string) {
@@ -29,8 +31,16 @@ function verifyNumber(string: string) {
 }
 
 function NumericInput(props: NumericInputProps) {
-  const { value, precision, thousandChar, decimalChar, locale, ...inputProps } =
-    props;
+  const {
+    value,
+    precision,
+    thousandChar,
+    decimalChar,
+    locale,
+    prefix,
+    suffix,
+    ...inputProps
+  } = props;
   const defaultValue = value === null ? NaN : Number(value);
 
   const formatter = useMemo(
@@ -137,6 +147,14 @@ function NumericInput(props: NumericInputProps) {
       onKeyDown={handleKeyDown}
       onChange={handleChange}
       value={inputValue}
+      InputProps={{
+        startAdornment: prefix && (
+          <InputAdornment position='start'>{prefix}</InputAdornment>
+        ),
+        endAdornment: suffix && (
+          <InputAdornment position='end'>{suffix}</InputAdornment>
+        )
+      }}
     />
   );
 }
