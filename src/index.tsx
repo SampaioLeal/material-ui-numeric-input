@@ -99,7 +99,7 @@ function NumericInput(props: NumericInputProps) {
     }
 
     const { isNumber, numberFomart } = verifyNumber(numericRepresentation);
-    if (isNumber && numberFomart) {
+    if (isNumber && numberFomart !== null) {
       const withPrecision = numberFomart / 10 ** precision;
 
       const formattedNumber = format(withPrecision);
