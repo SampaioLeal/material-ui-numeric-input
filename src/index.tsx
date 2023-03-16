@@ -11,7 +11,7 @@ export interface HTMLNumericElement
 export type NumericInputProps = Omit<TextFieldProps, 'onChange'> & {
   value?: number | string;
   onChange?(e: React.ChangeEvent<HTMLNumericElement>): void;
-  locale?: string;
+
   precision: number;
   thousandChar: string;
   decimalChar: string;
@@ -36,7 +36,6 @@ function NumericInput(props: NumericInputProps) {
     precision,
     thousandChar,
     decimalChar,
-    locale,
     prefix,
     suffix,
     ...inputProps
@@ -45,7 +44,7 @@ function NumericInput(props: NumericInputProps) {
 
   const formatter = useMemo(
     () =>
-      new Intl.NumberFormat(locale || 'pt-BR', {
+      new Intl.NumberFormat('pt-BR', {
         minimumFractionDigits: precision,
         maximumFractionDigits: precision
       }),
