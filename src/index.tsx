@@ -24,7 +24,7 @@ function verifyNumber(string: string) {
 
   return {
     isNumber: !isNaN(Number(numericRepresentation)),
-    numberFomart: !isNaN(Number(numericRepresentation))
+    numberFormat: !isNaN(Number(numericRepresentation))
       ? Number(numericRepresentation)
       : null
   };
@@ -108,9 +108,9 @@ function NumericInput(props: NumericInputProps) {
       return props.onChange && props.onChange(newEvent);
     }
 
-    const { isNumber, numberFomart } = verifyNumber(numericRepresentation);
-    if (isNumber && numberFomart !== null) {
-      const withPrecision = numberFomart / 10 ** precision;
+    const { isNumber, numberFormat } = verifyNumber(numericRepresentation);
+    if (isNumber && numberFormat !== null) {
+      const withPrecision = numberFormat / 10 ** precision;
 
       const formattedNumber = format(withPrecision);
 
